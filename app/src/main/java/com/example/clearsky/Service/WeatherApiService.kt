@@ -15,12 +15,11 @@ interface WeatherApiService {
         @Query("units") units: String = "metric"
     ): WeatherResponse
 
-    @GET("onecall")
-    suspend fun getWeatherForecast(
-        @Query("lat") latitude: Double,
-        @Query("lon") longitude: Double,
-        @Query("exclude") exclude: String = "current,minutely,hourly,alerts",
+    @GET("forecast/daily")
+    suspend fun getForecast(
+        @Query("q") city: String,
         @Query("appid") apiKey: String,
+        @Query("cnt") count: Int = 7,
         @Query("units") units: String = "metric"
     ): WeatherForecastResponse
 
