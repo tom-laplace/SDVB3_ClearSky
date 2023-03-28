@@ -5,9 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clearsky.DailyWeather
+import com.example.clearsky.ForecastItem
 import com.example.clearsky.Instance.RetrofitInstance
 import com.example.clearsky.WeatherResponse
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -31,15 +32,15 @@ class WeatherViewModel : ViewModel() {
         }
     }
 
-    private val _forecast = MutableLiveData<List<DailyWeather>>()
-    val forecast: LiveData<List<DailyWeather>> = _forecast
+    private val _forecast = MutableLiveData<List<ForecastItem>>()
+    val forecast: LiveData<List<ForecastItem>> = _forecast
 
-    fun getForecast(city: String, apiKey: String) {
-        viewModelScope.launch(IO) {
+    fun getForecast(lon: Float, lat: Float, apiKey: String) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
-                val response = RetrofitInstance.api.getForecast(city, apiKey)
-                withContext(Main) {
-                    _forecast.value = response.daily
+                val response = RetrofitInstance.api.getForecast(lat, lon, apiKey)
+                withContext(Dispatchers.Main) {
+                    _forecast.value = response.list
                 }
             } catch (e: Exception) {
                 Log.e("WeatherViewModel", "Error fetching forecast data: ${e.message}")

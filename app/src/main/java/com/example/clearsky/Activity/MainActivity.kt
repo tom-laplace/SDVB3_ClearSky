@@ -1,10 +1,12 @@
 package com.example.clearsky.Activity
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.clearsky.ForecastItem
 import com.example.clearsky.Model.WeatherViewModel
 import com.example.clearsky.R
 import java.util.Locale
@@ -17,6 +19,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textViewTemperature: TextView
     private lateinit var btnSearch : Button
     private lateinit var editTextCity : EditText
+    private lateinit var textViewForecast : TextView
+    private val apiKey = "a2317e7fe800f51f1e2ddebed66a9be8"
+    private var lat : Float = 0.0F
+    private var lon : Float = 0.0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         textViewTemperature = findViewById(R.id.textViewTemperature)
         btnSearch = findViewById(R.id.buttonSearch)
         editTextCity = findViewById(R.id.editTextCitySearch)
+        textViewForecast = findViewById(R.id.textViewForecast)
 
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
 
@@ -45,12 +52,38 @@ class MainActivity : AppCompatActivity() {
             textViewCity.text = weather.name
             textViewDescription.text = weather.weather[0].description.capitalize(Locale.ROOT)
             textViewTemperature.text = getString(R.string.temperature_format, weather.main.temp)
+            lat = weather.coord.lat
+            lon = weather.coord.lon
+
+            getForecastForLocation()
+        })
+
+        viewModel.forecast.observe(this, Observer { forecast: List<ForecastItem> ->
+            displayForecast(forecast)
         })
     }
 
     // Function to get weather data for location entered by user
     private fun getWeatherForLocation(location: String) {
-        val apiKey = "a2317e7fe800f51f1e2ddebed66a9be8"
         viewModel.getWeather(location, apiKey)
     }
+
+    private fun getForecastForLocation() {
+        viewModel.getForecast(lat, lon, apiKey)
+    }
+
+    private fun displayForecast(forecast: List<ForecastItem>) {
+        val stringBuilder = StringBuilder()
+
+        forecast.forEach { item ->
+            stringBuilder.append("Date: ${item.dt_txt}\n")
+            stringBuilder.append("Temperature: ${item.main.temp}°C\n")
+            stringBuilder.append("Min temp: ${item.main.temp_min}°C\n")
+            stringBuilder.append("Max temp: ${item.main.temp_max}°C\n")
+            stringBuilder.append("\n")
+        }
+
+        textViewForecast.text = stringBuilder.toString()
+    }
+
 }

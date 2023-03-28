@@ -55,12 +55,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editTextCitySearch" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewForecast"
-        android:layout_width="214dp"
-        android:layout_height="152dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:layout_editor_absoluteX="37dp"
-        tools:layout_editor_absoluteY="138dp" />
+    <TextView
+        android:id="@+id/textViewForecast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forecast"
+        android:textSize="18sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="157dp"
+        tools:layout_editor_absoluteY="180dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

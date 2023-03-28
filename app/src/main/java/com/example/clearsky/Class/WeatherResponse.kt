@@ -3,7 +3,8 @@ package com.example.clearsky
 data class WeatherResponse(
     val weather: List<Weather>,
     val main: Main,
-    val name: String
+    val name: String,
+    val coord: Coord
 )
 
 data class Weather(
@@ -18,4 +19,9 @@ data class Main(
     val temp_max: Float,
     val pressure: Int,
     val humidity: Int
+)
+
+data class Coord(
+    val lon: Float,
+    val lat: Float
 )
