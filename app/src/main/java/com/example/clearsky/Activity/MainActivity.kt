@@ -6,6 +6,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.clearsky.Adapter.ForecastAdapter
 import com.example.clearsky.ForecastItem
 import com.example.clearsky.Model.WeatherViewModel
 import com.example.clearsky.R
@@ -19,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textViewTemperature: TextView
     private lateinit var btnSearch : Button
     private lateinit var editTextCity : EditText
-    private lateinit var textViewForecast : TextView
+    private lateinit var recyclerViewForecast : RecyclerView
     private val apiKey = "a2317e7fe800f51f1e2ddebed66a9be8"
     private var lat : Float = 0.0F
     private var lon : Float = 0.0F
@@ -34,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         textViewTemperature = findViewById(R.id.textViewTemperature)
         btnSearch = findViewById(R.id.buttonSearch)
         editTextCity = findViewById(R.id.editTextCitySearch)
-        textViewForecast = findViewById(R.id.textViewForecast)
+        recyclerViewForecast = findViewById(R.id.recyclerViewForecast)
 
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
 
@@ -63,7 +66,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    // Function to get weather data for location entered by user
     private fun getWeatherForLocation(location: String) {
         viewModel.getWeather(location, apiKey)
     }
@@ -73,17 +75,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayForecast(forecast: List<ForecastItem>) {
-        val stringBuilder = StringBuilder()
-
-        forecast.forEach { item ->
-            stringBuilder.append("Date: ${item.dt_txt}\n")
-            stringBuilder.append("Temperature: ${item.main.temp}°C\n")
-            stringBuilder.append("Min temp: ${item.main.temp_min}°C\n")
-            stringBuilder.append("Max temp: ${item.main.temp_max}°C\n")
-            stringBuilder.append("\n")
+        val forecastAdapter = ForecastAdapter(forecast)
+        recyclerViewForecast.apply {
+            layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = forecastAdapter
         }
-
-        textViewForecast.text = stringBuilder.toString()
     }
-
 }
