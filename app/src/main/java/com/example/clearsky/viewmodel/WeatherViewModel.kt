@@ -1,13 +1,13 @@
-package com.example.clearsky.Model
+package com.example.clearsky.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.clearsky.ForecastItem
-import com.example.clearsky.Instance.RetrofitInstance
-import com.example.clearsky.WeatherResponse
+import com.example.clearsky.data.ForecastItem
+import com.example.clearsky.data.RetrofitInstance
+import com.example.clearsky.data.WeatherResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers.IO

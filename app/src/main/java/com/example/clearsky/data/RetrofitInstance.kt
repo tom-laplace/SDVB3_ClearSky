@@ -1,6 +1,5 @@
-package com.example.clearsky.Instance
+package com.example.clearsky.data
 
-import com.example.clearsky.Service.WeatherApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -1,4 +1,4 @@
-package com.example.clearsky
+package com.example.clearsky.data
 
 data class WeatherForecastResponse(
     val list: List<ForecastItem>
@@ -14,7 +14,10 @@ data class ForecastItem(
     val pop: Float,
     val sys: ForecastSys,
     val dt_txt: String
-)
+) {
+    val weatherIconUrl: String
+        get() = "http://openweathermap.org/img/w/${weather[0].icon}.png"
+}
 
 data class ForecastMain(
     val temp: Float,

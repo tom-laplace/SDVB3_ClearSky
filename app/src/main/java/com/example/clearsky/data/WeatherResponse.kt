@@ -1,4 +1,4 @@
-package com.example.clearsky
+package com.example.clearsky.data
 
 data class WeatherResponse(
     val weather: List<Weather>,

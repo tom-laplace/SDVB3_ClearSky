@@ -1,18 +1,18 @@
-package com.example.clearsky.Activity
+package com.example.clearsky.view
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.clearsky.Adapter.ForecastAdapter
-import com.example.clearsky.ForecastItem
-import com.example.clearsky.Model.WeatherViewModel
+import coil.load
 import com.example.clearsky.R
-import java.util.Locale
+import com.example.clearsky.adapter.ForecastAdapter
+import com.example.clearsky.data.ForecastItem
+import com.example.clearsky.viewmodel.WeatherViewModel
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnSearch : Button
     private lateinit var editTextCity : EditText
     private lateinit var recyclerViewForecast : RecyclerView
+    private lateinit var iconMeteo : ImageView
     private val apiKey = "a2317e7fe800f51f1e2ddebed66a9be8"
     private var lat : Float = 0.0F
     private var lon : Float = 0.0F
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         btnSearch = findViewById(R.id.buttonSearch)
         editTextCity = findViewById(R.id.editTextCitySearch)
         recyclerViewForecast = findViewById(R.id.recyclerViewForecast)
+        iconMeteo = findViewById(R.id.iconMeteoView)
 
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
 
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity() {
             textViewCity.text = weather.name
             textViewDescription.text = weather.weather[0].description.capitalize(Locale.ROOT)
             textViewTemperature.text = getString(R.string.temperature_format, weather.main.temp)
+            iconMeteo.load(weather.weather[0].icon)
             lat = weather.coord.lat
             lon = weather.coord.lon
 

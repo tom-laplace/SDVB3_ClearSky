@@ -1,4 +1,4 @@
-package com.example.clearsky.Activity
+package com.example.clearsky.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

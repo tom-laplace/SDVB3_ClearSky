@@ -1,7 +1,5 @@
-package com.example.clearsky.Service
+package com.example.clearsky.data
 
-import com.example.clearsky.WeatherForecastResponse
-import com.example.clearsky.WeatherResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
