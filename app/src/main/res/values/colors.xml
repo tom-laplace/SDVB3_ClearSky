@@ -1,9 +1,10 @@
 <resources>
-    <color name="primary">#00B9AE</color>
-    <color name="primary_variant">#00796B</color>
+    <color name="primary">#A9CEF4</color>
+    <color name="primary_variant">#36494E</color>
     <color name="on_primary">#FFFFFF</color>
-    <color name="secondary">#037171</color>
-    <color name="secondary_variant">#004D40</color>
+    <color name="secondary">#36494E</color>
+    <color name="secondary_variant">#00251A</color>
     <color name="on_secondary">#FFFFFF</color>
     <color name="background">#FFFFFF</color>
+    <color name="on_background">#F2F2F2</color>
 </resources>

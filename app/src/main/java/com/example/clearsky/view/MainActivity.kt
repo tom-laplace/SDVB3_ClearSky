@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.clearsky.R
 import com.example.clearsky.adapter.ForecastAdapter
 import com.example.clearsky.data.ForecastItem
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnSearch : Button
     private lateinit var editTextCity : EditText
     private lateinit var recyclerViewForecast : RecyclerView
+    private lateinit var imageViewWeatherIcon: ImageView
     private val apiKey = "a2317e7fe800f51f1e2ddebed66a9be8"
     private var lat : Float = 0.0F
     private var lon : Float = 0.0F
@@ -54,6 +56,8 @@ class MainActivity : AppCompatActivity() {
         editTextCity = findViewById(R.id.editTextCitySearch)
         recyclerViewForecast = findViewById(R.id.recyclerViewForecast)
         loadingLayout = findViewById(R.id.layout_loading)
+        imageViewWeatherIcon = findViewById(R.id.imageViewWeatherIcon)
+
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
 
         btnSearch.setOnClickListener() {
@@ -73,6 +77,7 @@ class MainActivity : AppCompatActivity() {
             lat = weather.coord.lat
             lon = weather.coord.lon
 
+            setWeatherIcon(weather.weather[0].icon, imageViewWeatherIcon)
             getForecastForLocation()
         })
 
@@ -158,6 +163,10 @@ class MainActivity : AppCompatActivity() {
     private fun hideLoading() {
         loadingLayout.visibility = View.GONE
         recyclerViewForecast.visibility = View.VISIBLE
+    }
+    private fun setWeatherIcon(icon: String, imageView: ImageView) {
+        val iconUrl = "https://openweathermap.org/img/wn/$icon.png"
+        Glide.with(this).load(iconUrl).into(imageView)
     }
 
 
