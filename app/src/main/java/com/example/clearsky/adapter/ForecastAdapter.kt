@@ -3,12 +3,10 @@ package com.example.clearsky.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.example.clearsky.data.ForecastItem
 import com.example.clearsky.R
+import com.example.clearsky.data.ForecastItem
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,18 +32,16 @@ class ForecastAdapter(private val forecast: List<ForecastItem>): RecyclerView.Ad
         holder.textViewTemperature.text = "${currentItem.main.temp}°C"
         holder.textViewMinTemperature.text = "Min temp: ${currentItem.main.temp_min}°C"
         holder.textViewMaxTemperature.text = "Max temp: ${currentItem.main.temp_max}°C"
-
-       holder.itemView.findViewById<ImageView>(R.id.imageViewWeatherIcon).load(currentItem.weatherIconUrl)
     }
 
     private fun formatDate(dateString: String): String {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("EEE, MMM d, yyyy", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("EEE, d MMM yyyy", Locale.FRENCH)
         val date = inputFormat.parse(dateString)
         return if (date != null) {
             outputFormat.format(date)
         } else {
-            "Invalid Date"
+            "Date invalide"
         }
     }
 

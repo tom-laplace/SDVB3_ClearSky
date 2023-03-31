@@ -9,9 +9,9 @@ import com.example.clearsky.data.ForecastItem
 import com.example.clearsky.data.RetrofitInstance
 import com.example.clearsky.data.WeatherResponse
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class WeatherViewModel : ViewModel() {
@@ -23,6 +23,19 @@ class WeatherViewModel : ViewModel() {
         viewModelScope.launch(IO) {
             try {
                 val response = RetrofitInstance.api.getCurrentWeather(location, apiKey)
+                withContext(Main) {
+                    _weather.value = response
+                }
+            } catch (e: Exception) {
+                Log.e("WeatherViewModel", "Error fetching weather data: ${e.message}")
+            }
+        }
+    }
+
+    fun getWeatherByCoordinates(lon: Float, lat: Float, apiKey: String) {
+        viewModelScope.launch(IO) {
+            try {
+                val response = RetrofitInstance.api.getCurrentWeatherByCoordinates(lat, lon, apiKey)
                 withContext(Main) {
                     _weather.value = response
                 }
