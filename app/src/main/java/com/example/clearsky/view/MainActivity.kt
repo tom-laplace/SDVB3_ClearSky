@@ -1,5 +1,6 @@
 package com.example.clearsky.view
 
+import CityViewModel
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -19,6 +20,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: WeatherViewModel
+    private lateinit var cityViewModel: CityViewModel
     private lateinit var textViewCity: TextView
     private lateinit var textViewDescription: TextView
     private lateinit var textViewTemperature: TextView
@@ -33,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initialize views
         textViewCity = findViewById(R.id.textViewCity)
         textViewDescription = findViewById(R.id.textViewDescription)
         textViewTemperature = findViewById(R.id.textViewTemperature)
@@ -42,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         recyclerViewForecast = findViewById(R.id.recyclerViewForecast)
 
         viewModel = ViewModelProvider(this).get(WeatherViewModel::class.java)
+      //  cityViewModel = ViewModelProvider(this).get(CityViewModel::class.java)
+
 
         btnSearch.setOnClickListener() {
             val location = editTextCity.text.toString()
@@ -52,7 +55,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Observe weather data
         viewModel.weather.observe(this, Observer { weather ->
             textViewCity.text = weather.name
             textViewDescription.text = weather.weather[0].description.capitalize(Locale.ROOT)
@@ -83,4 +85,5 @@ class MainActivity : AppCompatActivity() {
             adapter = forecastAdapter
         }
     }
+
 }
